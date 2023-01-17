@@ -1,29 +1,30 @@
-import dotenv from 'dotenv';
-dotenv.config();
+// import dotenv from 'dotenv';
+import { dockerSecret } from './data/secret.js';
+// dotenv.config();
+// function required(key, defaultValue = undefined) {
+//   const value = process.env[key] || defaultValue;
+//   if (value == null) {
+//     throw new Error(`Key ${key} is undefined`);
+//   }
+//   return value;
+// }
 
-function required(key, defaultValue = undefined) {
-  const value = process.env[key] || defaultValue;
-  if (value == null) {
-    throw new Error(`Key ${key} is undefined`);
-  }
-  return value;
-}
-
+console.log(dockerSecret);
 export const config = {
   jwt: {
-    secretKey: required('JWT_SECRET'),
-    expiresInSec: parseInt(required('JWT_EXPIRES_SEC', 86400)),
+    secretKey: dockerSecret.read('JWT_SECRET'),
+    expiresInSec: parseInt(dockerSecret.read('JWT_EXPIRES_SEC')),
   },
   bcrypt: {
-    saltRounds: parseInt(required('BCRYPT_SALT_ROUNDS', 12)),
+    saltRounds: parseInt(dockerSecret.read('BCRYPT_SALT_ROUNDS')),
   },
   host: {
-    port: parseInt(required('HOST_PORT', 4000)),
+    port: parseInt(dockerSecret.read('HOST_PORT')),
   },
   db: {
-    host: required('DB_HOST'),
-    user: required('DB_USER'),
-    database: required('DB_DATABASE'),
-    password: required('DB_PASSWORD'),
+    host: dockerSecret.read('DB_HOST'),
+    user: dockerSecret.read('DB_USER'),
+    database: dockerSecret.read('DB_DATABASE'),
+    password: dockerSecret.read('DB_PASSWORD'),
   },
 };
