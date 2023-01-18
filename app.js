@@ -31,6 +31,7 @@ sequelize.sync().then(() => {
   const server = app.listen(config.host.port, () => {
     const { address, port } = server.address();
 
+    console.log(config.host.port);
     console.log(`server started from port: ${port}, ip: ${address}`);
     console.log('==================================');
     console.log(server.address());
